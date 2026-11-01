@@ -74,3 +74,22 @@ body { font-size: 17px; }
   .quiet-core, .quiet-satellite, .focus-strip > div::before { animation: none; }
 }
 .reduced-motion .quiet-core, .reduced-motion .quiet-satellite, .reduced-motion .focus-strip > div::before { animation: none; }
+
+/* Let the project introduction wrap as a paragraph, aligned to its title. */
+#work .section-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 320px);
+  align-items: end;
+  gap: 36px;
+}
+#work .section-note {
+  margin: 0 0 2px;
+  max-width: none;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+.project .citadel-artwork { max-height: 350px; }
+@media (max-width: 900px) {
+  #work .section-heading { grid-template-columns: 1fr; gap: 20px; }
+  #work .section-note { max-width: 52ch; }
+}
