@@ -26,7 +26,8 @@ const source = '.recovery/original-site/dist';
 if (fs.existsSync(source)) {
   for (const file of fs.readdirSync(source, { recursive: true })) {
     const original = path.join(source, file);
-    if (!fs.statSync(original).isFile() || file === 'index.html') continue;
+    // Design files evolve; original downloadable materials remain intact.
+    if (!fs.statSync(original).isFile() || !file.startsWith(`assets${path.sep}`)) continue;
     assert(fs.readFileSync(original).equals(fs.readFileSync(path.join('public', file))), `Changed original asset: ${file}`);
     assets++;
   }

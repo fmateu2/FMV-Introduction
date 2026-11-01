@@ -24,7 +24,7 @@ export function usePortfolioEffects() {
     const navigation = document.querySelector('.nav-links');
     const setMenu = open => {
       menu.setAttribute('aria-expanded', String(open));
-      menu.textContent = open ? 'Close ✕' : 'Menu +';
+      menu.textContent = open ? 'Close' : 'Menu';
       navigation.classList.toggle('open', open);
     };
     menu.addEventListener('click', () => setMenu(menu.getAttribute('aria-expanded') !== 'true'), { signal });
