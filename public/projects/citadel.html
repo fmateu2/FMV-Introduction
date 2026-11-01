@@ -1,0 +1,108 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name="referrer" content="no-referrer"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Citadel — Francesc Mateu Vallespín</title><meta name="description" content="A complete C systems project: forked workers, pipes, pthreads, TCP framing and a verified two-realm trading flow."><meta name="theme-color" content="#f6f5ee"><link rel="canonical" href="https://francesc-mateu-vallespin.goodsong9.chatgpt.site/projects/citadel.html"><meta property="og:type" content="website"><meta property="og:title" content="Citadel — Francesc Mateu Vallespín"><meta property="og:description" content="A complete C systems project: forked workers, pipes, pthreads, TCP framing and a verified two-realm trading flow."><meta property="og:url" content="https://francesc-mateu-vallespin.goodsong9.chatgpt.site/projects/citadel.html"><link rel="icon" type="image/svg+xml" href="/assets/favicon.svg"><link rel="stylesheet" href="/styles.css"><script src="/app.js" defer></script><link rel="stylesheet" href="/verity.css"><link rel="stylesheet" href="/citadel.css"><link rel="stylesheet" href="/code-walkthroughs.css"></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="wrap nav"><a class="brand" href="/" aria-label="Francesc Mateu Vallespín, home">fmv<span class="brand-dot"></span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation">Menu +</button><nav class="nav-links" id="navigation" aria-label="Main navigation"><a href="/#work">Selected work</a><a href="/#about">About me</a><a href="/#learning">Learning</a><a class="nav-contact" href="/#contact">Let’s talk ↗</a></nav></div></header><main id="main"><section class="case-hero wrap citadel-hero">
+<a class="back-link" href="/#work">← Back to selected work</a><div class="case-label mono">PROJECT 01 / SYSTEMS PROGRAMMING</div>
+<div class="citadel-title"><h1>Citadel<span>.</span></h1><span class="citadel-badge mono">FORK. CONNECT.<br>COORDINATE.<br>C / POSIX ↗</span></div>
+<p class="case-intro">A network of independent processes. A protocol shared between them. An operating systems project built from the system calls up.</p>
+<div class="tags"><span class="tag">C</span><span class="tag">POSIX processes</span><span class="tag">TCP sockets</span><span class="tag">Pipes & pthreads</span></div>
+<div class="actions"><a class="btn btn-dark" href="#protocol-explorer">Explore a network frame ↓</a><a class="btn" href="/assets/citadel/citadel-source.zip" download>Download the complete project ↗</a><a class="btn" href="https://github.com/fmateu2/citadel-system" target="_blank" rel="noopener noreferrer">View on GitHub ↗</a></div><section class="project-availability" id="availability" aria-labelledby="availability-title"><div class="availability-heading"><h2 id="availability-title">Ways to explore this project</h2><span class="availability-label">Protocol explorer + verified local run</span></div><dl><div><dt>On this page</dt><dd>Build and inspect a 320-byte frame in the browser. This JavaScript illustration follows the C wire format; it does not launch processes or make TCP connections.</dd></div><div><dt>Download &amp; run</dt><dd>The complete C source, Makefile, five sample realms and a local configuration helper are included. Build on Linux with GCC, Make, pthreads and md5sum; Python 3 runs the optional setup and smoke check.</dd></div><div><dt>Verified scope</dt><dd>Compilation and a two-realm flow passed: alliance/file transfer, remote product listing, trade persistence and shutdown. Multi-hop routing and stress/failure scenarios are not covered by the smoke check.</dd></div></dl></section>
+<figure class="citadel-scene"><div class="citadel-diagram"><span class="mono">INSIDE ONE REALM / PROCESS ARCHITECTURE</span><div class="citadel-process"><h3>Maester · parent process</h3><p>Interactive command loop · TCP listener<br>Connection threads · shared state + mutex</p></div><div class="citadel-pipes mono">↓ TASK PIPES &nbsp; / &nbsp; RESULT PIPES ↑</div><div class="citadel-workers"><div>Envoy 01<small>persistent child</small></div><div>Envoy 02<small>persistent child</small></div></div><p class="mono" style="font-size:10px;line-height:1.8;margin:0">Outgoing missions → remote realm over TCP<br>Parent monitors stdin and envoy pipes with select()</p></div><div class="citadel-terminal"><span class="mono">LOCAL RUN / VERIFIED TWO-REALM FLOW</span><pre>[Stark] $ PLEDGE Lannister stark.png
+[Lannister] $ PLEDGE RESPOND Stark ACCEPT
+[Stark] Alliance with Lannister forged successfully!
+
+[Stark] $ LIST PRODUCTS Lannister
+[Stark] $ START TRADE Lannister
+[Stark] $ ADD Golden Lion Statuette 1
+[Stark] $ SEND
+[Stark] Order accepted by Lannister.
+        Stock updated.</pre></div><figcaption>Process diagram: explanatory schematic. Terminal: excerpt from the included Linux smoke check, with lines wrapped for readability.</figcaption></figure>
+<div class="citadel-facts"><div><b>320</b><span>bytes per wire frame</span></div><div><b>30</b><span>C source & header files</span></div><div><b>5</b><span>sample realms included</span></div><div><b>2</b><span>realms in the verified flow</span></div></div>
+</section><div class="wrap case-body citadel-body"><aside class="case-aside"><p><strong>Context</strong>Operating Systems<br>La Salle · 2025–2026<br>Phase 4 / Group 15</p><p><strong>Team</strong>Francesc Mateu Vallespín<br>Jan Francesc Porcar Guillen</p><p><strong>Explore</strong><a href="#protocol-explorer">Frame explorer ↓</a><br><a href="#citadel-walkthrough">Inside the C code ↓</a><br><a href="#citadel-run">Run locally ↓</a><br><a href="#resources">Source & report ↓</a></p></aside><div class="case-content">
+<section><div class="eyebrow">01 / The system</div><h2>Separate execution.<br>Shared agreements.</h2><p>Each realm runs its own Maester process, with a terminal, inventory, route configuration and alliance state. Realms exchange sigils, establish alliances, request goods and send orders through a custom TCP protocol.</p><p>I co-developed the project around a practical systems question: how do independent execution flows coordinate without blocking the interactive command loop?</p><div class="citadel-steps"><article class="citadel-step"><span class="mono">01</span><div><h3>Delegate work to processes.</h3><p>Persistent envoys are created with fork(). Two pipes per worker carry missions and results between parent and child.</p></div></article><article class="citadel-step"><span class="mono">02</span><div><h3>Handle incoming connections.</h3><p>A listener thread accepts TCP sockets. Detached connection threads interpret frames while the main command loop stays available.</p></div></article><article class="citadel-step"><span class="mono">03</span><div><h3>Coordinate state and transfers.</h3><p>Mutexes protect shared updates. Fixed frames carry messages; larger files use chunked transfers, acknowledgments and MD5 integrity checks.</p></div></article></div><p class="note"><strong>Project context.</strong> The trading workflow is part of a fictional realm simulation. The engineering focus is process coordination, communication and persistence.</p></section>
+<section id="protocol-explorer"><div class="eyebrow">02 / Try the protocol</div><h2>One message.<br>Exactly 320 bytes.</h2><p>Change a message and inspect its serialized frame. The field sizes, byte order and checksum follow the C implementation. Then flip one payload byte to see why the receiver rejects the frame.</p><div class="protocol-lab"><div class="protocol-head mono"><span>WIRE FORMAT / INTERACTIVE EXPLORER</span><span>BROWSER ONLY</span></div><form id="protocol-form"><div class="protocol-fields"><label for="packet-type">Message type<select id="packet-type"><option value="17">0x11 · Product list request</option><option value="3">0x03 · Alliance response</option><option value="22">0x16 · Order response</option></select></label><label for="packet-destination">Destination realm<input id="packet-destination" value="Lannister" maxlength="19" spellcheck="false"></label><label class="protocol-payload" for="packet-payload">Payload<textarea id="packet-payload" rows="3" maxlength="500" spellcheck="false">Stark</textarea></label></div><label class="protocol-switch"><input type="checkbox" id="packet-corrupt">Flip one payload byte after computing the checksum</label></form><div class="packet-layout"><div>Type<strong>1 byte</strong></div><div>Origin<strong>20 bytes</strong></div><div>Destination<strong>20 bytes</strong></div><div>Data length<strong>2 bytes</strong></div><div>Data + padding<strong>275 bytes</strong></div><div>Checksum<strong>2 bytes</strong></div></div><div class="packet-stats"><div><span>PAYLOAD</span><b id="packet-length">5 / 275 bytes</b></div><div><span>STORED CHECKSUM</span><b id="packet-checksum">—</b></div><div><span>RECEIVER CHECKSUM</span><b id="packet-computed">—</b></div></div><div id="packet-state" class="packet-state" role="status" aria-live="polite">Enable JavaScript to inspect the frame.</div><details class="packet-hex"><summary>Inspect all 320 bytes in hexadecimal ↓</summary><pre id="packet-hex"></pre></details><p class="explorer-note">A JavaScript illustration of serialization, not a running C process or TCP connection. Origin is fixed at 127.0.0.1:18890. The six field cards are not drawn to scale. A matching checksum establishes format integrity, not sender authentication.</p></div></section>
+<section><h2>The engineering focus</h2><p>The project brings together several kinds of concurrency: child processes for outgoing missions, threads for incoming connections, and an event loop monitoring terminal input and worker pipes. Making the boundaries explicit is what keeps the design understandable.</p><p>The protocol is equally explicit: fields are serialized individually, partial reads are accumulated, and the receiver validates the completed frame before dispatching it.</p></section><section id="citadel-walkthrough"><div class="eyebrow">03 / Inside the C code</div><h2>Where coordination becomes code.</h2><p>Three excerpts from the system I co-developed, with the data flow and design decisions made explicit.</p><article class="codewalk"><div class="codewalk-heading"><span class="codewalk-index">01</span><h3>Define the wire format field by field.</h3></div><p class="codewalk-intro">The serializer writes a byte buffer explicitly. It does not send the in-memory Frame struct, which could contain compiler padding.</p><details class="codewalk-source" open><summary><span>src/network/protocol2.c · serialize_frame</span><span>C ↓</span></summary><div class="codewalk-source-label mono">ORIGINAL SOURCE EXCERPT</div><pre><code>void serialize_frame(const Frame *frame, unsigned char buffer[FRAME_SIZE]) {
+    uint16_t net_len;
+    uint16_t checksum;
+    int offset = 0;
+
+    memset(buffer, 0, FRAME_SIZE);
+
+    if (frame == NULL) {
+        return;
+    }
+
+    buffer[offset++] = frame-&gt;type;
+
+    memcpy(buffer + offset, frame-&gt;origin, ORIGIN_SIZE);
+    offset += ORIGIN_SIZE;
+
+    memcpy(buffer + offset, frame-&gt;destination, DESTINATION_SIZE);
+    offset += DESTINATION_SIZE;
+
+    net_len = htons(frame-&gt;data_length);
+    memcpy(buffer + offset, &amp;net_len, sizeof(uint16_t));
+    offset += sizeof(uint16_t);
+
+    memcpy(buffer + offset, frame-&gt;data, DATA_SIZE);
+    offset += DATA_SIZE;
+
+    checksum = compute_frame_checksum(buffer);
+    checksum = htons(checksum);
+    memcpy(buffer + offset, &amp;checksum, sizeof(uint16_t));
+}</code></pre></details><ol class="codewalk-steps"><li>Zero the complete 320-byte buffer so unused payload bytes have a defined value.</li><li>Copy each fixed-size field and write the length using htons for network byte order.</li><li>Sum the first 318 bytes, then store the checksum in the final two bytes.</li></ol><div class="codewalk-example"><span class="mono">ILLUSTRATIVE WALKTHROUGH</span><pre>1 type + 20 origin + 20 destination + 2 length
++ 275 data/padding + 2 checksum = 320 bytes
+A five-byte payload still occupies a 320-byte frame.</pre></div></article><article class="codewalk"><div class="codewalk-heading"><span class="codewalk-index">02</span><h3>Reassemble a full frame from partial reads.</h3></div><p class="codewalk-intro">TCP is a byte stream. One read call may return fewer bytes than the application requested, so the receiver accumulates progress.</p><details class="codewalk-source"><summary><span>src/network/net_frame.c · read_full</span><span>C ↓</span></summary><div class="codewalk-source-label mono">ORIGINAL SOURCE EXCERPT</div><pre><code>int read_full(int fd, unsigned char *buf, size_t size) {
+    size_t total = 0;
+
+    while (total &lt; size) {
+        ssize_t n = read(fd, buf + total, size - total);
+        if (n &lt;= 0) {
+            return -1;
+        }
+        total += (size_t)n;
+    }
+
+    return 0;
+}</code></pre></details><ol class="codewalk-steps"><li>Track how many bytes have already been received.</li><li>Read into the remaining buffer space and advance the offset by the actual byte count.</li><li>Return success only after the full frame arrives. An error or closed connection returns failure.</li></ol><div class="codewalk-example"><span class="mono">ILLUSTRATIVE WALKTHROUGH</span><pre>Illustrative socket reads: 80 bytes + 120 bytes + 120 bytes
+Accumulated bytes:         80 → 200 → 320
+Only then: parse_frame(buffer, frame)</pre></div></article><article class="codewalk"><div class="codewalk-heading"><span class="codewalk-index">03</span><h3>Give each envoy its own execution flow.</h3></div><p class="codewalk-intro">Two pipes create separate task and result channels. fork() creates the child; each side closes the pipe ends it does not use.</p><details class="codewalk-source"><summary><span>src/state/envoy2.c · envoy creation</span><span>C ↓</span></summary><div class="codewalk-source-label mono">ORIGINAL SOURCE EXCERPT</div><pre><code>if (pipe(to_envoy) &lt; 0 || pipe(from_envoy) &lt; 0) {
+    free(envoys);
+    return NULL;
+}
+
+pid = fork();
+if (pid &lt; 0) {
+    close(to_envoy[0]);
+    close(to_envoy[1]);
+    close(from_envoy[0]);
+    close(from_envoy[1]);
+    free(envoys);
+    return NULL;
+}
+
+if (pid == 0) {
+    /* Child: close parent-side ends of this envoy&#x27;s pipes */
+    close(to_envoy[1]);
+    close(from_envoy[0]);
+
+    /* Close parent-side ends of all previously created envoys */
+    for (j = 0; j &lt; i; j++) {
+        close(envoys[j].fd_write);
+        close(envoys[j].fd_read);
+    }
+
+    envoy_worker_loop(to_envoy[0], from_envoy[1]);
+    close(to_envoy[0]);
+    close(from_envoy[1]);
+    _exit(0);
+}</code></pre></details><ol class="codewalk-steps"><li>Create one pipe for tasks and another for results before forking.</li><li>In the child, close the parent-side ends and previously inherited worker descriptors.</li><li>Run the persistent worker loop; the parent later uses its remaining descriptors to dispatch missions and collect results.</li></ol><div class="codewalk-example"><span class="mono">ILLUSTRATIVE WALKTHROUGH</span><pre>Parent writes a mission → child reads its task pipe
+Child sends TCP frames  → remote realm handles the request
+Child writes a result   → parent observes its result pipe</pre></div></article><a class="inline-link" href="/assets/citadel/protocol2.c" download>Download the frame implementation ↗</a></section>
+<section id="citadel-run"><div class="eyebrow">04 / Reproduce the workflow</div><h2>Build it. Run two realms.<br>Make them cooperate.</h2><div class="citadel-check"><span class="mono">LINUX / GCC / LOCAL EXECUTION</span><pre>make
+python3 scripts/prepare_local.py
+
+# Terminal 1
+./Maester .demo/Stark/config.dat .demo/Stark/inventory.db
+
+# Terminal 2
+./Maester .demo/Lannister/config.dat .demo/Lannister/inventory.db</pre><p>The setup helper creates independent copies of the supplied data and local configurations. The README includes the exact alliance and trade commands.</p></div><p><strong>Verified:</strong> a warning-free GCC build and a two-realm smoke check covering envoy availability, sigil transfer, alliance acceptance, remote product lists, an accepted trade, persisted inventory changes and successful process exits.</p><p>The application requires Linux/POSIX facilities and md5sum; WSL2 is an option on Windows. The full runtime is a terminal application. Multi-hop routing and broader failure/concurrency scenarios are not covered by this smoke check.</p><a class="inline-link" href="/assets/citadel/verified-run.txt" download>Read the captured test transcript ↗</a></section>
+<section id="resources"><div class="eyebrow">05 / Code & evidence</div><h2>The complete system,<br>ready to inspect.</h2><p class="availability-resource-link"><a href="#availability">View demo scope & execution requirements ↑</a></p><div class="resource-grid"><a class="resource-card" href="/assets/citadel/citadel-source.zip" download><span class="mono">ZIP / COMPLETE SOURCE</span><h3>C source, data & local setup ↗</h3><p>All modules, Makefile, five sample realms, setup helper, smoke check and original report.</p></a><a class="resource-card" href="/assets/citadel/README.md" download><span class="mono">MARKDOWN / PROJECT GUIDE</span><h3>Architecture & execution ↗</h3><p>Commands, frame specification, dependencies, verification scope and implementation notes.</p></a><a class="resource-card" href="/assets/citadel/technical-report.pdf"><span class="mono">PDF / ORIGINAL REPORT</span><h3>The technical report ↗</h3><p>The team’s original explanation of the design and its development across phases.</p></a></div></section>
+<div><h2>Let’s talk systems.</h2><p>Interested in the process model, wire protocol or the trade-offs of shared state?</p><a class="btn btn-dark" href="mailto:mateu.fra@gmail.com?subject=Citadel%20project">Get in touch ↗</a></div></div></div><section class="case-next"><div class="wrap"><div><span class="mono">NEXT PROJECT</span><h2>WearWise</h2></div><a class="btn" href="/projects/wearwise.html">Explore WearWise ↗</a></div></section></main><footer class="footer"><div class="wrap footer-inner"><span>© 2026 Francesc Mateu Vallespín</span><span>Barcelona roots. New York chapter.</span><a href="https://github.com/fmateu2" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="#main">Back to top ↑</a></div></footer><div class="toast" role="status" aria-live="polite"></div><script src="/assets/citadel/protocol.js"></script></body></html>

@@ -1,65 +1,31 @@
-# Francesc Mateu Vallespín — Portfolio
+# FMV Introduction
 
-Personal portfolio of an Artificial Intelligence & Data Science student at La Salle Barcelona, currently on a Computer Science exchange at Manhattan University in New York.
-
-Open to internships in software engineering, AI and data across industries. Finance and fintech are medium-term interests.
-
-## Selected projects
-
-1. [Citadel System](https://github.com/fmateu2/citadel-system) — C, POSIX processes, threads and TCP communication.
-2. [WearWise](https://github.com/fmateu2/wearwise) — AI-assisted garment extraction, MongoDB and explicit recommendation rules.
-3. [Nude Eye](https://github.com/fmateu2/nude-eye) — Java domain modelling and interchangeable persistence.
-4. [Environmental Data Analytics](https://github.com/fmateu2/environmental-data-analytics) — Oracle SQL, relational modelling and database triggers.
-5. [Verity](https://github.com/fmateu2/verity) — an educational machine learning experiment and browser interface.
-
-These are collaborative academic projects. Their pages and documentation preserve team credits, explain the available demos and distinguish verified behaviour from remaining limitations.
+React + Vite portfolio for Francesc Mateu Vallespín, restored from the original ChatGPT Site rather than recreated from its appearance.
 
 ## Run locally
 
-The website is prebuilt static HTML, CSS and JavaScript. No Node.js installation, database or API key is needed to serve it.
-
-```bash
-python -m http.server 8000 --directory dist
+```powershell
+npm.cmd install
+npm.cmd run dev
 ```
 
-Open http://localhost:8000.
+## Build
 
-## Structure
-
-| Path | Purpose |
-| --- | --- |
-| `dist/` | Deployable website, CV, diagrams and downloadable project packages |
-| `scripts/` | Page generators, package builders and publication checks |
-| `projects/` | Selected project snapshots used by generators and downloads |
-| `docs/download-files.json` | Allowlist of files included in project downloads |
-| `vercel.json` | Static hosting configuration, serving `dist/` |
-
-## Deploy on Vercel
-
-Import this repository in the intended Vercel account. The included configuration uses the **Other** framework preset, no install/build command and **dist** as the output directory. No runtime secrets are required for the portfolio.
-
-After assigning the final public hostname, regenerate pages with `PORTFOLIO_ORIGIN` set to that HTTPS origin so canonical and social-sharing links use the public address. Metadata retains the previous preview address until that hostname is known. Add the final URL to the CV before the final public release.
-
-## Rebuild and check
-
-Python 3 and the authoring dependencies Pillow, PyMuPDF and ReportLab are required for full regeneration. The CV generator additionally expects DejaVu fonts; its Linux font paths may need adapting on other systems. Node.js is needed only for the optional WearWise parity check.
-
-```bash
-python scripts/build-pages.py
-python scripts/build-cv.py
-python scripts/package-citadel.py
-python scripts/package-wearwise.py
-python scripts/package-nude-eye.py
-python scripts/package-environment.py
-python scripts/package-verity.py
-python scripts/check-site.py
-python scripts/check-publication.py
+```powershell
+npm.cmd run build
+npm.cmd run preview
 ```
 
-The original project applications have separate requirements. Some need local services or separately authorized dependencies. Their READMEs document those boundaries; the portfolio runs independently.
+## Recovered design
 
-## Credentials and provenance
+The homepage is native React in `src/App.jsx`, using the original stylesheet in `src/style.css`. `src/usePortfolioEffects.js` manages scroll reveals, reduced motion, the mobile menu and email copying with effect cleanup.
 
-Keep credentials, environment files, provider account state and private keys out of Git. Blank `.env.example` files are illustrative templates.
+The five original case studies remain HTML/JavaScript in `public/projects/`, with their original styles, diagrams, browser demos, CV and downloads in `public/`. Vite copies them into the production build without changing them. They have not yet been migrated to React components.
 
-Project reports and source retain their authorship credits and existing reuse terms. No new licence is assigned to third-party course libraries or jointly authored academic work.
+Recovery source: Site **Francesc Mateu Vallespín — AI, Data & Software**, saved version **17**, commit `082515b1e7bca9685392e5aa028de637085f78db`. The Site retains 17 saved versions. This local recovery does not change the hosted Site or publish to Vercel.
+
+The previous React project is backed up in `.recovery/react-before-recovery/`. The retrieved original source and Git history are in `.recovery/original-site/`. Both are excluded from Git. `scripts/restore-original.mjs` records the one-time conversion and requires that local recovery source.
+
+Run `node scripts/check-recovery.mjs` after building to check local links and compare recovered static assets with the source checkout when available.
+
+No API credentials are required to run the portfolio. The project demos retain their original documented scope and limitations. Recovery preserves the version 17 publication files; it does not constitute a new audit of the downloadable projects or their external services.

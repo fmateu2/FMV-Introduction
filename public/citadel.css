@@ -1,0 +1,389 @@
+.citadel-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+.citadel-title h1 {
+  font-size: clamp(76px, 12vw, 150px);
+  letter-spacing: -0.07em;
+  margin: 10px 0;
+}
+.citadel-title h1 span {
+  color: var(--purple);
+}
+.citadel-badge {
+  background: var(--lime);
+  border: 1px solid var(--ink);
+  padding: 18px;
+  transform: rotate(6deg);
+  font-size: 11px;
+  line-height: 1.6;
+  flex-shrink: 0;
+}
+.citadel-hero .actions {
+  margin-top: 30px;
+}
+.citadel-scene {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--ink);
+  border-radius: 12px;
+  margin: 44px 0 0;
+  overflow: hidden;
+  box-shadow: 7px 7px 0 var(--purple);
+}
+.citadel-diagram {
+  background: var(--lilac);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+.citadel-diagram > .mono {
+  font-size: 10px;
+  color: var(--purple);
+}
+.citadel-process {
+  background: var(--paper, #f6f5ee);
+  border: 1px solid var(--ink);
+  padding: 22px;
+  border-radius: 7px;
+}
+.citadel-process h3 {
+  font-size: 23px;
+  margin: 0 0 8px;
+  letter-spacing: -0.04em;
+}
+.citadel-process p {
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0;
+  color: var(--muted);
+}
+.citadel-pipes {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+}
+.citadel-workers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.citadel-workers > div {
+  background: var(--purple);
+  color: white;
+  padding: 17px;
+  border: 1px solid var(--ink);
+  border-radius: 7px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.citadel-workers small {
+  color: var(--lime);
+  display: block;
+  font-size: 10px;
+}
+.citadel-terminal {
+  background: #191a20;
+  color: #f6f5ee;
+  min-width: 0;
+  padding: 30px;
+}
+.citadel-terminal > .mono {
+  color: #cdf27b;
+  font-size: 10px;
+  letter-spacing: 0.07em;
+}
+.citadel-terminal pre {
+  font:
+    11px/2 "Courier New",
+    monospace;
+  margin: 24px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #e1d9fd;
+}
+.citadel-scene figcaption {
+  grid-column: 1/-1;
+  background: #f0ece0;
+  border-top: 1px solid var(--ink);
+  padding: 14px 22px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.citadel-facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-block: 1px solid var(--line);
+  margin-top: 44px;
+}
+.citadel-facts > div {
+  padding: 24px 16px;
+  border-right: 1px solid var(--line);
+}
+.citadel-facts > div:last-child {
+  border: 0;
+}
+.citadel-facts b {
+  display: block;
+  font-size: 42px;
+  letter-spacing: -0.06em;
+}
+.citadel-facts span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.citadel-body .case-aside p {
+  margin-bottom: 26px;
+}
+.citadel-body .case-content {
+  min-width: 0;
+}
+.citadel-body .eyebrow {
+  margin-bottom: 16px;
+}
+.citadel-steps {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0;
+}
+.citadel-step {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 12px;
+}
+.citadel-step > span {
+  font-size: 11px;
+  color: var(--purple);
+  padding-top: 4px;
+}
+.citadel-step h3 {
+  font-size: 21px;
+  margin: 0 0 8px;
+}
+.citadel-step p {
+  font-size: 14px;
+  margin: 0;
+}
+.protocol-lab {
+  border: 1px solid var(--ink);
+  border-radius: 12px;
+  padding: 25px;
+  background: white;
+  box-shadow: 5px 5px 0 var(--lime);
+  margin-top: 24px;
+}
+.protocol-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 10px;
+  margin-bottom: 24px;
+  color: var(--purple);
+}
+.protocol-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+.protocol-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.protocol-fields input,
+.protocol-fields select,
+.protocol-fields textarea {
+  width: 100%;
+  font:
+    13px/1.6 Arial,
+    sans-serif;
+  padding: 12px;
+  border: 1px solid #bfbfb6;
+  border-radius: 6px;
+  background: var(--paper, #f6f5ee);
+  color: var(--ink);
+  box-sizing: border-box;
+}
+.protocol-fields textarea {
+  resize: vertical;
+  min-height: 85px;
+}
+.protocol-payload {
+  grid-column: 1/-1;
+}
+.protocol-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  margin: 18px 0;
+  line-height: 1.6;
+}
+.protocol-switch input {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--purple);
+}
+.packet-layout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin: 20px 0;
+}
+.packet-layout > div {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--lilac);
+  font-size: 11px;
+}
+.packet-layout strong {
+  display: block;
+  font-size: 15px;
+  margin-top: 6px;
+}
+.packet-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  border-block: 1px solid var(--line);
+  padding: 18px 0;
+}
+.packet-stats span {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.packet-stats b {
+  font-size: 15px;
+}
+.packet-state {
+  padding: 13px 16px;
+  font-size: 12px;
+  background: #e9f2e0;
+  border-radius: 6px;
+  margin-top: 17px;
+  color: #304d28;
+}
+.packet-state[data-valid="false"] {
+  background: #ffede5;
+  color: #962c15;
+}
+.packet-hex {
+  margin-top: 17px;
+}
+.packet-hex summary {
+  font-size: 12px;
+  cursor: pointer;
+}
+.packet-hex pre {
+  background: #191a20;
+  color: #dcf76c;
+  font:
+    10px/1.8 "Courier New",
+    monospace;
+  border-radius: 7px;
+  padding: 17px;
+  overflow: auto;
+  max-height: 300px;
+}
+.protocol-lab .explorer-note {
+  font-size: 11px;
+  margin: 16px 0 0;
+  line-height: 1.7;
+}
+.citadel-check {
+  border: 1px solid var(--ink);
+  background: var(--lilac);
+  padding: 25px;
+  border-radius: 10px;
+}
+.citadel-check > .mono {
+  font-size: 10px;
+  color: var(--purple);
+}
+.citadel-check pre {
+  font:
+    12px/1.9 "Courier New",
+    monospace;
+  overflow: auto;
+  margin: 16px 0;
+}
+.citadel-check p {
+  font-size: 13px;
+  margin: 12px 0 0;
+}
+.citadel-body a.inline-link {
+  margin-right: 15px;
+}
+#protocol-explorer,
+#citadel-walkthrough,
+#citadel-run,
+#resources {
+  scroll-margin-top: 110px;
+}
+@media (max-width: 760px) {
+  .citadel-title h1 {
+    font-size: 76px;
+  }
+  .citadel-badge {
+    padding: 12px;
+    font-size: 9px;
+  }
+  .citadel-scene {
+    grid-template-columns: 1fr;
+    box-shadow: 4px 4px 0 var(--purple);
+  }
+  .citadel-diagram,
+  .citadel-terminal {
+    padding: 23px;
+  }
+  .citadel-facts {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .citadel-facts > div:nth-child(2) {
+    border-right: 0;
+  }
+  .citadel-facts > div:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+  .citadel-facts b {
+    font-size: 36px;
+  }
+  .protocol-fields {
+    grid-template-columns: 1fr;
+  }
+  .protocol-lab {
+    padding: 18px;
+  }
+  .packet-stats {
+    grid-template-columns: 1fr;
+  }
+  .packet-layout {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .citadel-step {
+    padding: 18px;
+    grid-template-columns: 26px 1fr;
+  }
+  .citadel-process h3 {
+    font-size: 20px;
+  }
+  .citadel-title {
+    gap: 12px;
+  }
+  .citadel-title h1 {
+    font-size: clamp(60px, 18vw, 76px);
+  }
+}
